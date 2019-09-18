@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="sbm-cordova-plugin-epos2" version="1.0.0"
+    xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>SbmCordovaPluginEpos2</name>
+    <js-module name="SbmCordovaPluginEpos2" src="www/SbmCordovaPluginEpos2.js">
+        <clobbers target="SbmCordovaPluginEpos2" />
+    </js-module>
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="SbmCordovaPluginEpos2">
+                <param name="android-package" value="sbm.cordova.plugin.epos2.SbmCordovaPluginEpos2" />
+            </feature>
+        </config-file>
+		
+		
+        <config-file parent="/*" target="AndroidManifest.xml">
+		   <uses-permission android:name="android.permission.BLUETOOTH"/>
+            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+		</config-file>
+        <source-file src="src/android/SbmCordovaPluginEpos2.java" target-dir="src/sbm/cordova/plugin/epos2/SbmCordovaPluginEpos2" />
+		<source-file src="src/android/libs/ePOS2.jar" target-dir="libs" />
+        <resource-file src="src/android/libs/armeabi/libeposeasyselect.so" target="jniLibs/armeabi/libeposeasyselect.so"/>
+        <resource-file src="src/android/libs/armeabi/libepos2.so"    target="jniLibs/armeabi/libepos2.so"/>
+        <framework custom="true" src="src/android/sbmcordovapluginppos2.gradle" type="gradleReference" />
+    </platform>
+</plugin>

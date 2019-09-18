@@ -1,0 +1,14 @@
+repositories {
+    jcenter()
+}
+
+dependencies {
+    implementation 'com.journeyapps:zxing-android-embedded:3.0.2@aar'
+    implementation 'com.google.zxing:core:3.2.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+}
+
+android {
+    buildToolsVersion '23.0.2' // Older versions may give compile errors
+}

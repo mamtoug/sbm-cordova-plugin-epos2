@@ -1,0 +1,25 @@
+{
+  "name": "sbm-cordova-plugin-epos2",
+  "version": "1.0.0",
+  "description": "Cordova plugin for Epson ePOS",
+  "cordova": {
+    "id": "sbm-cordova-plugin-epos2",
+    "platforms": [
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mamtoug/sbm-cordova-plugin-epos2.git"
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "Maatoug Omar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mamtoug/sbm-cordova-plugin-epos2/issues"
+  },
+  "homepage": "https://github.com/mamtoug/sbm-cordova-plugin-epos2#readme"
+}
