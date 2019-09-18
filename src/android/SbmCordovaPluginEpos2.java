@@ -1,4 +1,4 @@
-package sbm-cordova-plugin-epos2;
+package sbm.cordova.plugin.epos2;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
