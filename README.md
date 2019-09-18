@@ -6,20 +6,24 @@ Cordova plugin for Epson ePOS SDK for  Android.
 ##  API  
 ### Printer Discovery  
   
-##### SbmCordovaPluginEpos2.discoverPrinters('start',successCallback, errorCallback)  
-  
+##### .discoverPrinters('start',successCallback, errorCallback)  
+   
+   ```  
  SbmCordovaPluginEpos2.discoverPrinters('start', function() => { // success callback } , function(error) => { // error callback      }  
  )  
-##### SbmCordovaPluginEpos2.getPrintersList('show', successCallback, errorCallback)  
+```  
+
+##### .getPrintersList('show', successCallback, errorCallback)  
   
-  
+  ```  
  SbmCordovaPluginEpos2.getPrintersList('show', function() => { // success callback } , function(error) => { // error callback      } )  
+  ```  
   
-  
-##### SbmCordovaPluginEpos2.stopDiscoverPrinters('stop',successCallback, errorCallback)  
-  
+##### .stopDiscoverPrinters('stop',successCallback, errorCallback)  
+  ```  
  SbmCordovaPluginEpos2.stopDiscoverPrinters('stop', function() => { // success callback } , function(error) => { // error callback      }  
  )   
+ ```  
 ### Printing   
 #### SbmCordovaPluginEpos2.printText(jsonObject, successCallback, errorCallback)  
 ```  
