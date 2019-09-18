@@ -2,10 +2,13 @@ package sbm.cordova.plugin.epos2;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
+
 import android.content.Context;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import com.epson.epos2.Epos2Exception;
 import com.epson.epos2.Log;
 import com.epson.epos2.discovery.Discovery;
@@ -16,11 +19,15 @@ import com.epson.epos2.Epos2Exception;
 import com.google.zxing.WriterException;
 import com.epson.epos2.printer.Printer;
 import com.epson.epos2.printer.PrinterStatusInfo;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.io.IOException;
+
 import com.google.zxing.common.BitMatrix;
+
 import android.graphics.Bitmap;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.epson.epos2.printer.ReceiveListener;
@@ -30,14 +37,14 @@ import com.google.gson.Gson;
 /**
  * This class echoes a string called from JavaScript.
  */
-public class SbmCordovaPluginEpos2 extends CordovaPlugin {
+public class SbmCordovaPluginEpos2 extends CordovaPlugin implements ReceiveListener {
 
     private Context context;
     private String error = "";
     private ArrayList<JSONObject> mPrinterList = null;
     private FilterOption mFilterOption = null;
     private CallbackContext mCallbackContext;
-    public static Printer mPrinter = null ;
+    public static Printer mPrinter = null;
     int lang = 0;
     String method = "";
     String data = "";
@@ -54,7 +61,7 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin {
     String printerTarget = "";
     int printerSeries = -1;
     String type;
-    JSONArray values ;
+    JSONArray values;
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -76,8 +83,6 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin {
 
             return true;
         }
-
-
 
 
         if (action.equals("discoverPrinters")) {
@@ -105,7 +110,6 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin {
     }
 
 
-
     private void coolMethod(String message, CallbackContext callbackContext) {
         if (message != null && message.length() > 0) {
             callbackContext.success(message);
@@ -117,14 +121,10 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin {
 
     // Print Text
     private void printText(JSONArray args, CallbackContext callbackContext) {
-
         if (args != null) {
 
-
             try {
-
                 JSONObject argsObject = args.getJSONObject(0);
-
                 // Get printer Data
                 if (!argsObject.has("printer")) {
                     callbackContext.error("Printer data required");
@@ -142,17 +142,15 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin {
                     lang = Integer.parseInt(printerData.getString("lang"));
                 }
                 values = argsObject.getJSONArray("data");
-                mCallbackContext = callbackContext ;
-                runPrintSequence(callbackContext);
-            } catch(JSONException e){
-                callbackContext.error(e.toString());
+                mCallbackContext = callbackContext;
+                runPrintSequence();
+            } catch (JSONException e) {
+                callbackContext.error("error");
             }
 
         }
 
     }
-
-
 
 
     // Get Printers List
@@ -304,7 +302,7 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin {
     private String errorCreateData = "";
 
     // Create Data
-    private boolean createData(CallbackContext callbackContext) {
+    private boolean createData() {
         StringBuilder textData = new StringBuilder();
 
         try {
@@ -376,8 +374,7 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin {
                         method = "addCut";
                         mPrinter.addCut(Printer.CUT_FEED);
                     } catch (Exception e) {
-                        callbackContext.error("Error on init data");
-
+                        mCallbackContext.error("cannot create Data");
 
 
                     }
@@ -388,11 +385,10 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin {
             }
 
         } catch (JSONException e) {
-            callbackContext.error("CreateData error ");
+            mCallbackContext.error("cannot parse data ");
         }
         return true;
     }
-
 
 
     @Override
@@ -400,8 +396,15 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin {
         cordova.getActivity().runOnUiThread(new Runnable() {
             @Override
             public synchronized void run() {
+                String msg = makeErrorMessage(status);
+                if (msg.equals("")) {
+                    mCallbackContext.success("PRINT_SUCCESS");
 
-                mCallbackContext.error(makeErrorMessage(status));
+                }else{
+                    mCallbackContext.error(msg);
+
+                }
+
 
                 new Thread(new Runnable() {
                     @Override
@@ -421,8 +424,7 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin {
 
         try {
             mPrinter.endTransaction();
-        }
-        catch (final Exception e) {
+        } catch (final Exception e) {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public synchronized void run() {
@@ -433,8 +435,7 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin {
 
         try {
             mPrinter.disconnect();
-        }
-        catch (final Exception e) {
+        } catch (final Exception e) {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public synchronized void run() {
@@ -448,7 +449,7 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin {
     }
 
 
-    private boolean connectPrinter(CallbackContext callbackContext) {
+    private boolean connectPrinter() {
         boolean isBeginTransaction = false;
 
         if (mPrinter == null) {
@@ -457,26 +458,23 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin {
 
         try {
             mPrinter.connect(printerTarget, Printer.PARAM_DEFAULT);
-        }
-        catch (Exception e) {
-            callbackContext.error("connect execptipnnn");
+        } catch (Exception e) {
+            mCallbackContext.error("connect connect to printer");
             return false;
         }
 
         try {
             mPrinter.beginTransaction();
             isBeginTransaction = true;
-        }
-        catch (Exception e) {
-            callbackContext.error("beginTransaction");
+        } catch (Exception e) {
+            mCallbackContext.error("beginTransaction problem");
 
         }
 
         if (isBeginTransaction == false) {
             try {
                 mPrinter.disconnect();
-            }
-            catch (Epos2Exception e) {
+            } catch (Epos2Exception e) {
                 // Do nothing
                 return false;
             }
@@ -496,11 +494,11 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin {
         mPrinter = null;
     }
 
-    private boolean initializeObject(CallbackContext callbackContext) {
+    private boolean initializeObject() {
         try {
             mPrinter = new Printer(printerSeries, lang, context);
         } catch (Exception e) {
-            callbackContext.error("Printer error initializeObject");
+            mCallbackContext.error("cannot create object Printer");
             return false;
         }
 
@@ -510,12 +508,12 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin {
     }
 
 
-    private boolean printData(CallbackContext callbackContext) {
+    private boolean printData() {
         if (mPrinter == null) {
             return false;
         }
 
-        if (!connectPrinter(callbackContext)) {
+        if (!connectPrinter()) {
             return false;
         }
 
@@ -524,11 +522,10 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin {
 
         if (!isPrintable(status)) {
 
-            callbackContext.error(makeErrorMessage(status));
+            mCallbackContext.error(makeErrorMessage(status));
             try {
                 mPrinter.disconnect();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 // Do nothing
             }
             return false;
@@ -538,15 +535,13 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin {
 
 
             mPrinter.sendData(Printer.PARAM_DEFAULT);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
 
-            callbackContext.error("error on send data");
+            mCallbackContext.error("error on sendData to Printer");
 
             try {
                 mPrinter.disconnect();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 // Do nothing
             }
             return false;
@@ -556,46 +551,43 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin {
     }
 
 
-
-
-
     private String makeErrorMessage(PrinterStatusInfo status) {
         String msg = "";
 
         if (status.getOnline() == Printer.FALSE) {
-            msg +="online";
+            msg += "online";
         }
         if (status.getConnection() == Printer.FALSE) {
-            msg +="getConnection";
+            msg += "getConnection";
 
         }
         if (status.getCoverOpen() == Printer.TRUE) {
-            msg +="getCoverOpen";
+            msg += "getCoverOpen";
 
         }
         if (status.getPaper() == Printer.PAPER_EMPTY) {
-            msg +="PAPER_EMPTY";
+            msg += "PAPER_EMPTY";
 
         }
         if (status.getPaperFeed() == Printer.TRUE || status.getPanelSwitch() == Printer.SWITCH_ON) {
-            msg +="SWITCH_ON";
+            msg += "SWITCH_ON";
 
         }
         if (status.getErrorStatus() == Printer.MECHANICAL_ERR || status.getErrorStatus() == Printer.AUTOCUTTER_ERR) {
-            msg +="AUTOCUTTER_ERR";
+            msg += "AUTOCUTTER_ERR";
 
         }
         if (status.getErrorStatus() == Printer.UNRECOVER_ERR) {
-            msg +="UNRECOVER_ERR";
+            msg += "UNRECOVER_ERR";
 
         }
         if (status.getErrorStatus() == Printer.AUTORECOVER_ERR) {
-            msg +="AUTORECOVER_ERR";
+            msg += "AUTORECOVER_ERR";
 
 
         }
         if (status.getBatteryLevel() == Printer.BATTERY_LEVEL_0) {
-            msg +="BATTERY_LEVEL_0";
+            msg += "BATTERY_LEVEL_0";
 
         }
 
@@ -603,17 +595,16 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin {
     }
 
 
-
-    private boolean runPrintSequence(CallbackContext callbackContext) {
-        if (!initializeObject(callbackContext)) {
+    private boolean runPrintSequence() {
+        if (!initializeObject()) {
             return false;
         }
-        if (!createData(callbackContext)) {
+        if (!createData()) {
             finalizeObject();
             return false;
         }
 
-        if (!printData(callbackContext)) {
+        if (!printData()) {
             finalizeObject();
             return false;
         }
