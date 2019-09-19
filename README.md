@@ -108,11 +108,11 @@ Specifies the paper feed space (in lines). Specifies an integer from 0 to 255.
 
 Adds the text alignment setting to the command buffer.  (default1)
 
- 	| 		Align     |  code      |  
+ 	|   Align         |  code      |  
 	|-----------------|------------| 
 	|   Center        |     1      |
 	|   Right         |     2      |
-	|   Left          |     0     |
+	|   Left          |     0      |
  
 ## textSizeWidth
 	
@@ -139,7 +139,7 @@ Adds the text alignment setting to the command buffer.  (default1)
 #### reverse
 Specifies inversion of black and white for text. 
 
-	| Value           |  Description 													  |  
+	| Value           |  Description 						      |  
 	|-----------------|-------------------------------------------------------------------| 
 	|  MODEL_ANK      |   Specifies the inversion of black and white parts of characters  |
 	|  MODEL_JAPANESE |    Cancels the inversion of black and white parts of characters   |
@@ -149,26 +149,26 @@ Specifies inversion of black and white for text.
 #### ul
 Specifies the underline style
 
-	| Value           |  Description 			 |  
+	| Value           |  Description 	     | 
 	|-----------------|--------------------------| 
 	|  1              |  Specifies underlining.  |
-	|  0              |  Cancels underlining. 	 |
+	|  0              |  Cancels underlining.    |
 	
 #### em
 Specifies the bold style
 
-	| Value           |  Description 								  |  
+	| Value           |  Description 				  |  
 	|-----------------|-----------------------------------------------| 
-	|  1 			  | Specifies emphasized printing of characters.  |
+	|  1 	          | Specifies emphasized printing of characters.  |
 	|  0              |  Cancels emphasized printing of characters.   |
 	 
 #### color
 Specifies the color.
 
-		| Value         |  Description				  |  
+		| Value         |  Description                |  
 		|---------------|-----------------------------| 
-		|  0			| Characters are not printed  |
-		|  1			| First  color  			  |
-		|  2			| Second color 				  |
-		|  3			| Third color				  |
-		|  4			| Fourth color 				  |
+		|  0		| Characters are not printed  |
+		|  1		| First  color  	      |
+		|  2		| Second color 	              |
+		|  3		| Third color                 |
+		|  4		| Fourth color                |
