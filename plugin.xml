@@ -25,6 +25,11 @@
 		<source-file src="src/android/libs/ePOS2.jar" target-dir="libs" />
         <resource-file src="src/android/libs/armeabi/libeposeasyselect.so" target="jniLibs/armeabi/libeposeasyselect.so"/>
         <resource-file src="src/android/libs/armeabi/libepos2.so"    target="jniLibs/armeabi/libepos2.so"/>
+		
+		
+		 <resource-file src="src/android/libs/armeabi/libeposeasyselect.so" target="jniLibs/armeabi-v7a/libeposeasyselect.so"/>
+        <resource-file src="src/android/libs/armeabi/libepos2.so"    target="jniLibs/armeabi-v7a/libepos2.so"/>
+		
         <framework custom="true" src="src/android/sbmcordovapluginppos2.gradle" type="gradleReference" />
     </platform>
 </plugin>
