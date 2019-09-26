@@ -19,7 +19,7 @@ import com.epson.epos2.Epos2Exception;
 import com.google.zxing.WriterException;
 import com.epson.epos2.printer.Printer;
 import com.epson.epos2.printer.PrinterStatusInfo;
-
+import android.bluetooth.BluetoothAdapter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.io.IOException;
@@ -166,23 +166,34 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin implements ReceiveListe
 
     // Discover Printers
     private void discoverPrinters(JSONArray args, CallbackContext callbackContext) {
-        mPrinterList = new ArrayList<JSONObject>();
-        mPrinterList.clear();
-        context = this.cordova.getActivity().getApplicationContext();
-        mFilterOption = new FilterOption();
-        mFilterOption.setDeviceType(Discovery.TYPE_PRINTER);
-        mFilterOption.setEpsonFilter(Discovery.FILTER_NAME);
-        try {
-            Discovery.start(context, mFilterOption, mDiscoveryListener);
-        } catch (Exception e) {
-            callbackContext.error("Error on start discover");
+
+        // check if bluetooth is enabled
+
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null) {
+            callbackContext.error("Device does not support Bluetooth");
+        } else {
+            if (!mBluetoothAdapter.isEnabled()) {
+                callbackContext.error("Bluetooth is not enabled");
+            } else {
+                mPrinterList = new ArrayList<JSONObject>();
+                mPrinterList.clear();
+                context = this.cordova.getActivity().getApplicationContext();
+                mFilterOption = new FilterOption();
+                mFilterOption.setDeviceType(Discovery.TYPE_PRINTER);
+                mFilterOption.setEpsonFilter(Discovery.FILTER_NAME);
+                try {
+                    Discovery.start(context, mFilterOption, mDiscoveryListener);
+                } catch (Exception e) {
+                    callbackContext.error("Error on start discover");
+                }
+                callbackContext.success("success");
+            }
+
         }
-        callbackContext.success("success");
     }
-
-
     // Stop Discover Printers
-    private void stopDiscoverPrinters(JSONArray args, CallbackContext callbackContext) {
+    private void stopDiscoverPrinters (JSONArray args, CallbackContext callbackContext){
 
         try {
             Discovery.stop();
@@ -207,7 +218,7 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin implements ReceiveListe
     };
 
 
-    private boolean initializePrinter(int printerSeries, int lang, String printerTarget) {
+    private boolean initializePrinter ( int printerSeries, int lang, String printerTarget){
 
         context = this.cordova.getActivity().getApplicationContext();
         try {
@@ -259,7 +270,7 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin implements ReceiveListe
     }
 
 
-    private Bitmap encodeAsBitmap(String str) throws WriterException {
+    private Bitmap encodeAsBitmap (String str) throws WriterException {
         BitMatrix result;
         try {
             result = new MultiFormatWriter().encode(str, BarcodeFormat.QR_CODE, 300, 300, null);
@@ -282,7 +293,7 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin implements ReceiveListe
         return bitmap;
     }
 
-    private boolean isPrintable(PrinterStatusInfo status) {
+    private boolean isPrintable (PrinterStatusInfo status){
         if (status == null) {
             return false;
         }
@@ -302,7 +313,7 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin implements ReceiveListe
     private String errorCreateData = "";
 
     // Create Data
-    private boolean createData() {
+    private boolean createData () {
         StringBuilder textData = new StringBuilder();
 
         try {
@@ -392,7 +403,8 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin implements ReceiveListe
 
 
     @Override
-    public void onPtrReceive(final Printer printerObj, final int code, final PrinterStatusInfo status, final String printJobId) {
+    public void onPtrReceive ( final Printer printerObj, final int code,
+                               final PrinterStatusInfo status, final String printJobId){
         cordova.getActivity().runOnUiThread(new Runnable() {
             @Override
             public synchronized void run() {
@@ -400,7 +412,7 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin implements ReceiveListe
                 if (msg.equals("")) {
                     mCallbackContext.success("PRINT_SUCCESS");
 
-                }else{
+                } else {
                     mCallbackContext.error(msg);
 
                 }
@@ -417,7 +429,7 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin implements ReceiveListe
     }
 
 
-    private void disconnectPrinter() {
+    private void disconnectPrinter () {
         if (mPrinter == null) {
             return;
         }
@@ -449,7 +461,7 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin implements ReceiveListe
     }
 
 
-    private boolean connectPrinter() {
+    private boolean connectPrinter () {
         boolean isBeginTransaction = false;
 
         if (mPrinter == null) {
@@ -482,7 +494,7 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin implements ReceiveListe
         return true;
     }
 
-    private void finalizeObject() {
+    private void finalizeObject () {
         if (mPrinter == null) {
             return;
         }
@@ -494,7 +506,7 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin implements ReceiveListe
         mPrinter = null;
     }
 
-    private boolean initializeObject() {
+    private boolean initializeObject () {
         try {
             mPrinter = new Printer(printerSeries, lang, context);
         } catch (Exception e) {
@@ -508,7 +520,7 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin implements ReceiveListe
     }
 
 
-    private boolean printData() {
+    private boolean printData () {
         if (mPrinter == null) {
             return false;
         }
@@ -551,7 +563,7 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin implements ReceiveListe
     }
 
 
-    private String makeErrorMessage(PrinterStatusInfo status) {
+    private String makeErrorMessage (PrinterStatusInfo status){
         String msg = "";
 
         if (status.getOnline() == Printer.FALSE) {
@@ -595,7 +607,7 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin implements ReceiveListe
     }
 
 
-    private boolean runPrintSequence() {
+    private boolean runPrintSequence () {
         if (!initializeObject()) {
             return false;
         }
@@ -611,5 +623,6 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin implements ReceiveListe
 
         return true;
     }
+
 
 }
