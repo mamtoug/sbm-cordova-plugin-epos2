@@ -24,11 +24,21 @@
         <source-file src="src/android/SbmCordovaPluginEpos2.java" target-dir="src/sbm/cordova/plugin/epos2/SbmCordovaPluginEpos2" />
 		<source-file src="src/android/libs/ePOS2.jar" target-dir="libs" />
         <resource-file src="src/android/libs/armeabi/libeposeasyselect.so" target="jniLibs/armeabi/libeposeasyselect.so"/>
-        <resource-file src="src/android/libs/armeabi/libepos2.so"    target="jniLibs/armeabi/libepos2.so"/>
-		
-		
+        <resource-file src="src/android/libs/armeabi/libepos2.so"    target="jniLibs/armeabi/libepos2.so"/>		
 		 <resource-file src="src/android/libs/armeabi/libeposeasyselect.so" target="jniLibs/armeabi-v7a/libeposeasyselect.so"/>
         <resource-file src="src/android/libs/armeabi/libepos2.so"    target="jniLibs/armeabi-v7a/libepos2.so"/>
+		
+		  	<resource-file src="src/android/libs/armeabi/libepos2.so"    target="jniLibs/armeabi-v8a/libepos2.so"/>
+			 <resource-file src="src/android/libs/armeabi/libeposeasyselect.so" target="jniLibs/armeabi-v8a/libeposeasyselect.so"/>
+
+        <resource-file src="src/android/libs/armeabi/libepos2.so"    target="jniLibs/arm64/libepos2.so"/>
+				 <resource-file src="src/android/libs/armeabi/libeposeasyselect.so" target="jniLibs/arm64/libeposeasyselect.so"/>
+
+        <resource-file src="src/android/libs/armeabi/libepos2.so"    target="libs/armeabi-v8a/libepos2.so"/>
+				 <resource-file src="src/android/libs/armeabi/libeposeasyselect.so" target="libs/armeabi-v8a/libeposeasyselect.so"/>
+        <resource-file src="src/android/libs/armeabi/libepos2.so"    target="libs/arm64/libepos2.so"/>
+				 <resource-file src="src/android/libs/armeabi/libeposeasyselect.so" target="libs/arm64/libeposeasyselect.so"/>
+
 		
         <framework custom="true" src="src/android/sbmcordovapluginppos2.gradle" type="gradleReference" />
     </platform>
