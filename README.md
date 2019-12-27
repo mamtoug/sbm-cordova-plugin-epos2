@@ -1,4 +1,5 @@
 
+
 # sbm-cordova-plugin-epos2  
   
 Cordova plugin for Epson ePOS SDK for  Android.  
@@ -8,28 +9,38 @@ Cordova plugin for Epson ePOS SDK for  Android.
   
 ##### .discoverPrinters('start',successCallback, errorCallback)  
    
-   ```  
- SbmCordovaPluginEpos2.discoverPrinters('start', function() => { // success callback } , function(error) => { // error callback      }  
- )  
-```  
+    SbmCordovaPluginEpos2.discoverPrinters('start', () => { 
+    // success callback 
+    } ,(error) => {
+    // error callback
+    }) 
 
 ##### .getPrintersList('show', successCallback, errorCallback)  
   
   ```  
- SbmCordovaPluginEpos2.getPrintersList('show', function() => { // success callback } , function(error) => { // error callback      } )  
+SbmCordovaPluginEpos2.getPrintersList('show', () => { 
+// success callback 
+},(error) => {
+// error callback    
+})  
   ```  
   
 ##### .stopDiscoverPrinters('stop',successCallback, errorCallback)  
   ```  
- SbmCordovaPluginEpos2.stopDiscoverPrinters('stop', function() => { // success callback } , function(error) => { // error callback      }  
- )   
+SbmCordovaPluginEpos2.stopDiscoverPrinters('stop',() => {
+// success callback
+} ,(error) => {
+// error callback
+})   
  ```  
 ### Printing   
 #### SbmCordovaPluginEpos2.printText(jsonObject, successCallback, errorCallback)  
 ```  
-SbmCordovaPluginEpos2.printText(jsonObject, function() => {  
- // success callback}, function(error) => {  
- // error callback})  
+SbmCordovaPluginEpos2.printText(jsonObject,() => {  
+// success callback
+},(error) => {  
+// error callback
+})  
 ```  
   
 ##### JsonObject Format  example   
