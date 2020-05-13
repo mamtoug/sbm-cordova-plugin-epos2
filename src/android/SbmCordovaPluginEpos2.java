@@ -382,8 +382,6 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin implements ReceiveListe
 
                         method = "addFeedLine";
                         mPrinter.addFeedLine(addFeedLine);
-                        method = "addCut";
-                        mPrinter.addCut(Printer.CUT_FEED);
                     } catch (Exception e) {
                         mCallbackContext.error("cannot create Data");
 
