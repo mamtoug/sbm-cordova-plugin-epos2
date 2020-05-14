@@ -86,23 +86,38 @@ public class SbmCordovaPluginEpos2 extends CordovaPlugin implements ReceiveListe
 
 
         if (action.equals("discoverPrinters")) {
-            String message = args.getString(0);
-            this.discoverPrinters(args, callbackContext);
+                    cordova.getThreadPool().execute(new Runnable() {
+     @Override
+                public void run() {
+             discoverPrinters(args, callbackContext);
+                   }
+                       } );
             return true;
         }
 
 
         if (action.equals("getPrintersList")) {
-            String message = args.getString(0);
 
-            this.getPrintersList(args, callbackContext);
+                            cordova.getThreadPool().execute(new Runnable() {
+     @Override
+                public void run() {
+
+            getPrintersList(args, callbackContext);
+              }
+                                 }   );
             return true;
         }
 
 
         if (action.equals("stopDiscoverPrinters")) {
-            this.stopDiscoverPrinters(args, callbackContext);
+                                    cordova.getThreadPool().execute(new Runnable() {
+     @Override
+                public void run() {
+           stopDiscoverPrinters(args, callbackContext);
+              }
+                                         }       );
             return true;
+
         }
 
 
