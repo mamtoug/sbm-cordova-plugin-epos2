@@ -2,11 +2,12 @@
 <plugin id="sbm-cordova-plugin-epos2" version="1.0.1"
         xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android">
+
     <name>SbmCordovaPluginEpos2</name>
+
     <js-module name="SbmCordovaPluginEpos2" src="www/SbmCordovaPluginEpos2.js">
         <clobbers target="SbmCordovaPluginEpos2"/>
     </js-module>
-
 
     <platform name="android">
         <config-file parent="/*" target="res/xml/config.xml">
@@ -15,70 +16,52 @@
             </feature>
         </config-file>
 
-
         <config-file parent="/*" target="AndroidManifest.xml">
-
             <uses-permission android:name="android.permission.BLUETOOTH"/>
             <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
             <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-            <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-            <uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:usesPermissionFlags="neverForLocation"/>
-                
-    
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
+            <uses-permission android:name="android.permission.BLUETOOTH_SCAN"
+                             android:usesPermissionFlags="neverForLocation"/>
         </config-file>
+
+        <!-- Java source -->
         <source-file src="src/android/SbmCordovaPluginEpos2.java"
                      target-dir="src/sbm/cordova/plugin/epos2/SbmCordovaPluginEpos2"/>
+
+        <!-- JAR -->
         <source-file src="src/android/libs/ePOS2.jar" target-dir="libs"/>
 
-
-        <resource-file src="src/android/libs/armeabi/libeposeasyselect.so"
-                       target="jniLibs/armeabi/libeposeasyselect.so"/>
-        <resource-file src="src/android/libs/armeabi/libepos2.so" target="jniLibs/armeabi/libepos2.so"/>
-        <resource-file src="src/android/libs/armeabi/libeposeasyselect.so" target="libs/armeabi/libeposeasyselect.so"/>
-        <resource-file src="src/android/libs/armeabi/libepos2.so" target="jniLibs/armeabi/libepos2.so"/>
-
-
+        <!-- ✅ arm64-v8a only (no duplicates, no dead armeabi) -->
+        <resource-file src="src/android/libs/arm64-v8a/libepos2.so"
+                       target="jniLibs/arm64-v8a/libepos2.so"/>
         <resource-file src="src/android/libs/arm64-v8a/libeposeasyselect.so"
                        target="jniLibs/arm64-v8a/libeposeasyselect.so"/>
-        <resource-file src="src/android/libs/arm64-v8a/libepos2.so" target="jniLibs/arm64-v8a/libepos2.so"/>
-        <resource-file src="src/android/libs/arm64-v8a/libeposeasyselect.so"
-                       target="libs/arm64-v8a/libeposeasyselect.so"/>
-        <resource-file src="src/android/libs/arm64-v8a/libepos2.so" target="jniLibs/arm64-v8a/libepos2.so"/>
 
-
+        <!-- ✅ armeabi-v7a (32-bit ARM devices) -->
+        <resource-file src="src/android/libs/armeabi-v7a/libepos2.so"
+                       target="jniLibs/armeabi-v7a/libepos2.so"/>
         <resource-file src="src/android/libs/armeabi-v7a/libeposeasyselect.so"
                        target="jniLibs/armeabi-v7a/libeposeasyselect.so"/>
-        <resource-file src="src/android/libs/armeabi-v7a/libepos2.so" target="jniLibs/armeabi-v7a/libepos2.so"/>
-        <resource-file src="src/android/libs/armeabi-v7a/libeposeasyselect.so"
-                       target="libs/armeabi-v7a/libeposeasyselect.so"/>
-        <resource-file src="src/android/libs/armeabi-v7a/libepos2.so" target="jniLibs/armeabi-v7a/libepos2.so"/>
 
+        <!-- ✅ x86_64 (modern emulators) -->
+        <resource-file src="src/android/libs/x86_64/libepos2.so"
+                       target="jniLibs/x86_64/libepos2.so"/>
+        <resource-file src="src/android/libs/x86_64/libeposeasyselect.so"
+                       target="jniLibs/x86_64/libeposeasyselect.so"/>
 
-        <resource-file src="src/android/libs/x86/libeposeasyselect.so" target="jniLibs/x86/libeposeasyselect.so"/>
-        <resource-file src="src/android/libs/x86/libepos2.so" target="jniLibs/x86/libepos2.so"/>
-        <resource-file src="src/android/libs/x86/libeposeasyselect.so" target="libs/x86/libeposeasyselect.so"/>
-        <resource-file src="src/android/libs/x86/libepos2.so" target="jniLibs/x86/libepos2.so"/>
-
-
-        <resource-file src="src/android/libs/x86_64/libeposeasyselect.so" target="jniLibs/x86_64/libeposeasyselect.so"/>
-        <resource-file src="src/android/libs/x86_64/libepos2.so" target="jniLibs/x86_64/libepos2.so"/>
-        <resource-file src="src/android/libs/x86_64/libeposeasyselect.so" target="libs/x86_64/libeposeasyselect.so"/>
-        <resource-file src="src/android/libs/x86_64/libepos2.so" target="jniLibs/x86_64/libepos2.so"/>
-
-
-        <framework custom="true" src="src/android/sbmcordovapluginppos2.gradle" type="gradleReference"/>
+        <framework custom="true" src="src/android/sbmcordovapluginppos2.gradle"
+                   type="gradleReference"/>
     </platform>
-
 
     <platform name="ios">
         <config-file parent="/*" target="config.xml">
             <feature name="SbmCordovaPluginEpos2">
-                <param name="ios-package" value="SbmCordovaPluginEpos2" />
+                <param name="ios-package" value="SbmCordovaPluginEpos2"/>
             </feature>
         </config-file>
 
-        <!-- Info.plist entries for Bluetooth permissions -->
         <config-file target="*-Info.plist" parent="NSBluetoothAlwaysUsageDescription">
             <string>This app requires Bluetooth access to connect to EPSON printers</string>
         </config-file>
@@ -89,18 +72,14 @@
             <string>This app requires location access for Bluetooth scanning</string>
         </config-file>
 
-        <!-- Source files -->
-        <source-file src="src/ios/SbmCordovaPluginEpos2.h" />
-        <source-file src="src/ios/SbmCordovaPluginEpos2.m" />
+        <source-file src="src/ios/SbmCordovaPluginEpos2.h"/>
+        <source-file src="src/ios/SbmCordovaPluginEpos2.m"/>
 
-        <!-- Framework references -->
-         <framework src="src/ios/libs/libepos2.xcframework" custom="true" embed="true" />
-        <framework src="src/ios/libs/libeposeasyselect.xcframework" custom="true" embed="true" />
+        <framework src="src/ios/libs/libepos2.xcframework" custom="true" embed="true"/>
+        <framework src="src/ios/libs/libeposeasyselect.xcframework" custom="true" embed="true"/>
 
-        <!-- Additional frameworks that might be required -->
-        <framework src="ExternalAccessory.framework" />
-        <framework src="CoreBluetooth.framework" />
+        <framework src="ExternalAccessory.framework"/>
+        <framework src="CoreBluetooth.framework"/>
     </platform>
-
 
 </plugin>
