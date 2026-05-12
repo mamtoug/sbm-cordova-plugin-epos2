@@ -39,11 +39,7 @@
         <resource-file src="src/android/libs/arm64-v8a/libeposeasyselect.so"
                        target="jniLibs/arm64-v8a/libeposeasyselect.so"/>
 
-        <!-- ✅ armeabi-v7a (32-bit ARM devices) -->
-        <resource-file src="src/android/libs/armeabi-v7a/libepos2.so"
-                       target="jniLibs/armeabi-v7a/libepos2.so"/>
-        <resource-file src="src/android/libs/armeabi-v7a/libeposeasyselect.so"
-                       target="jniLibs/armeabi-v7a/libeposeasyselect.so"/>
+
 
         <!-- ✅ x86_64 (modern emulators) -->
         <resource-file src="src/android/libs/x86_64/libepos2.so"
